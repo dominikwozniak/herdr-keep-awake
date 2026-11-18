@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+
+# Herdr writes its editor types into each mod folder it loads.
+mods/*/gpui-kit.d.ts
+mods/*/jsconfig.json
+
+# Per-machine agent settings.
+*.local.json

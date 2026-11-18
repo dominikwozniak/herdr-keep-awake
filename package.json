@@ -1,0 +1,12 @@
+{
+  "name": "herdr-keep-awake",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "mod:install": "rsync -a --delete --exclude gpui-kit.d.ts --exclude jsconfig.json mods/keep-awake/ \"${HERDR_APP_HOME:-$HOME/.config/herdr-app}/mods/keep-awake/\""
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
