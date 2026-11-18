@@ -36,7 +36,8 @@ jobs:
 
   copy:
     name: Copy
-    if: ${{ !github.event.pull_request.draft && (github.event_name != 'push' || !contains(github.event.head_commit.message, '(#')) }}
+    # The template's own test: a copy has no scripts/rename-copy.ts to run, so it skips the job.
+    if: ${{ github.repository == 'dominikwozniak/package-template-pnpm' && !github.event.pull_request.draft && (github.event_name != 'push' || !contains(github.event.head_commit.message, '(#')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
