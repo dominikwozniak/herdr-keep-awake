@@ -13,8 +13,15 @@ A Herdr mod: a switch in the tab bar that keeps your Mac and its display awake w
   crashes, `caffeinate -w <Herdr's pid>` ends by itself.
 - `cmd-alt-k` flips it from the keyboard.
 
-macOS only: it needs `caffeinate`. Closing the lid still puts a Mac to sleep, unless it runs in
-clamshell mode on power with an external display.
+Closing the lid still puts a Mac to sleep, unless it runs in clamshell mode on power with an
+external display.
+
+## Requirements
+
+- **macOS**, for `caffeinate`. It ships with macOS at `/usr/bin/caffeinate`, so there is nothing to
+  install; `which caffeinate` confirms it. Linux and Windows have no `caffeinate`, and the switch
+  turns red there with an error toast.
+- **The Herdr desktop app**, whose `hc` (herdr-core) starts and ends `caffeinate`.
 
 ## Install
 
@@ -47,24 +54,12 @@ reaches no network and reads no files.
 
 ## Development
 
-Node 24.11 or later and pnpm. Agents start at `AGENTS.md`.
+Node 22 or later; no dependencies to install. Agents start at `AGENTS.md`.
 
-```bash
-pnpm install
-pnpm bootstrap
-```
-
-| command                         | what it does                                                    |
-| ------------------------------- | --------------------------------------------------------------- |
-| `pnpm mod:install`              | copies `mods/keep-awake/` into Herdr, which reloads it          |
-| `pnpm check`                    | the Gate: `vp check`, `vp test`, then the Checks; = CI          |
-| `pnpm check:fix`                | formats and applies lint fixes                                  |
-| `pnpm test`                     | runs the tests in `tests/` and `scripts/`                       |
-| `pnpm agents:check`             | holds `AGENTS.md` to its links, paths and skills                |
-| `pnpm references:sync [dir...]` | clones or updates the References `.ai/references.json` declares |
-| `pnpm bootstrap [--dry-run]`    | sets up a machine or a fresh clone                              |
-
-The tooling comes from a copier template; `.copier-answers.yml` records which commit.
+| command            | what it does                                           |
+| ------------------ | ------------------------------------------------------ |
+| `pnpm test`        | tests `awake.js` with `node:test`                      |
+| `pnpm mod:install` | copies `mods/keep-awake/` into Herdr, which reloads it |
 
 ## License
 

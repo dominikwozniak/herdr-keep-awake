@@ -1,8 +1,7 @@
 // What the switch runs and how it reads hc's answers.
 
 import assert from "node:assert/strict"
-
-import { describe, it } from "vite-plus/test"
+import { describe, it } from "node:test"
 
 import { isHold, listsHold, NAME, parsePid, runArgs } from "../mods/keep-awake/awake.js"
 
