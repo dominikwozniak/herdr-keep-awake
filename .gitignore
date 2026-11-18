@@ -1,14 +1,9 @@
 node_modules/
 .DS_Store
 
-# `vp config` writes the wrappers git runs; the hooks themselves are tracked in .vite-hooks/.
-.vite-hooks/_/
+# Herdr writes its editor types into each mod folder it loads.
+mods/*/gpui-kit.d.ts
+mods/*/jsconfig.json
 
-# Worktrees Claude Code creates, and local notes that never reach a commit.
-.claude/worktrees/
-ideas/
-
-# References are cloned on each machine by `pnpm references:sync`; only the router is tracked.
-references/*
-!references/AGENTS.md
-!references/CLAUDE.md
+# Per-machine agent settings.
+*.local.json

@@ -1,7 +1,0 @@
-# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: c852a7b
-_src_path: gh:dominikwozniak/package-template-pnpm
-github: false
-name: herdr-keep-awake
-purpose: 'A Herdr mod: a switch in the tab bar that keeps your Mac and its display
-    awake while your coding agents work.'

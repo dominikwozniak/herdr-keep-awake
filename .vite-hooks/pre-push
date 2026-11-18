@@ -1,7 +1,0 @@
-# The gate on every push that carries code: a private repo on a personal account has no branch
-# protection, so Quality Gate reports but blocks nothing. CI stays as the second pair of eyes, for
-# `--no-verify`. Git names each pushed ref on stdin, a deleted one as `(delete)`; a push that only
-# deletes sends no code, so it skips the check.
-while read -r local_ref _; do
-  [ "$local_ref" = "(delete)" ] || exec pnpm check
-done

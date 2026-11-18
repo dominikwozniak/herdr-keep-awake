@@ -2,64 +2,65 @@
 
 A Herdr mod: a switch in the tab bar that keeps your Mac and its display awake while your coding agents work.
 
-Vite+ formats, lints, type-checks and tests; pnpm resolves nothing younger than 7 days; the dw-sdlc
-guardrails, Matt Pocock's engineering skills and a set of reference repos come ready for Claude Code.
-Agents start at `AGENTS.md`.
+![Keep awake](preview.png)
+
+## What it does
+
+- **On:** the mod runs `caffeinate -d -i -s` as a hidden Herdr terminal. The display does not sleep,
+  and the Mac does not go to sleep on its own.
+- **Off:** it ends that `caffeinate`.
+- The switch is remembered across restarts. When Herdr quits, the mod ends `caffeinate`. If Herdr
+  crashes, `caffeinate -w <Herdr's pid>` ends by itself.
+- `cmd-alt-k` flips it from the keyboard.
+
+Closing the lid still puts a Mac to sleep, unless it runs in clamshell mode on power with an
+external display.
 
 ## Requirements
 
-- Node 24.11 or later, and pnpm, which switches itself to the version `packageManager` pins.
-- [Claude Code](https://code.claude.com), `gh` signed in (`gh auth login`, then `gh auth setup-git`
-  for private clones), git 2.32 or later, and `jq`, which the sdlc plugin's guards need.
-- [uv](https://docs.astral.sh/uv/), whose `uvx` runs copier to start a project or pull the template's
-  changes.
+- **macOS**, for `caffeinate`. It ships with macOS at `/usr/bin/caffeinate`, so there is nothing to
+  install; `which caffeinate` confirms it. Linux and Windows have no `caffeinate`, and the switch
+  turns red there with an error toast.
+- **The Herdr desktop app**, whose `hc` (herdr-core) starts and ends `caffeinate`.
 
-## Setup
+## Install
 
-```bash
-pnpm install
-pnpm bootstrap
-```
+Ask the agent in Herdr:
 
-`pnpm bootstrap` checks the tools above, adds the `dw-sdlc` marketplace and installs its sdlc plugin
-at user scope when either is missing, runs the plugin's setup for this repo and its doctor, and clones
-the references. A second run changes nothing; `--dry-run` only reads.
+> Add the mod from github.com/dominikwozniak/herdr-keep-awake and put its switch at the right end of
+> my tab bar.
 
-## Commands
+Or by hand:
 
-| command                         | what it does                                                       |
-| ------------------------------- | ------------------------------------------------------------------ |
-| `pnpm check`                    | the Gate: `vp check`, `vp test`, then the Checks; = CI             |
-| `pnpm check:fix`                | formats and applies lint fixes                                     |
-| `pnpm test`                     | runs the tests beside the code, `scripts/**/*.test.ts`             |
-| `pnpm agents:check`             | holds `AGENTS.md` to its links, paths and skills                   |
-| `pnpm references:sync [dir...]` | clones or updates the References `.ai/references.json` declares    |
-| `pnpm references:setup`         | writes the `references/AGENTS.md` table from `.ai/references.json` |
-| `pnpm bootstrap [--dry-run]`    | sets up a machine or a fresh clone                                 |
+1. Copy `mods/keep-awake/` to `~/.config/herdr-app/mods/keep-awake/`.
+2. Add its block to your layout in `~/.config/herdr-app/layouts/`, in the row of your tab bar. If the
+   tab bar is a single `tabs` block, wrap it in a `row` with this block after it:
 
-## A new project
+   ```json
+   {
+     "id": "keep-awake",
+     "type": "block",
+     "content": { "mod": "keep-awake" },
+     "size": { "px": 96 },
+     "window_drag": true
+   }
+   ```
 
-```bash
-uvx copier@9.19.1 copy --trust gh:dominikwozniak/package-template-pnpm <dir>
-```
+3. Merge `keys.json` into `~/.config/herdr-app/keys.json`, unless `cmd-alt-k` is already yours.
+4. Run `herdr-app check ~/.config/herdr-app/mods/keep-awake`.
 
-Copier asks for the name, one sentence on what the project is for, and whether to create its GitHub
-repository. It then puts both in `package.json`, `AGENTS.md`, `README.md` and `GLOSSARY.md`, runs
-`git init` and `pnpm bootstrap`, commits, and creates the private repository with squash merges only
-and branches deleted on merge. `--trust` lets it run those steps, the tasks in the template's
-`copier.yml`.
+The mod runs programs: `hc` to start and end `caffeinate`, and `sh` once, to read Herdr's pid. It
+reaches no network and reads no files.
 
-Then add the repositories the project reads with `/sdlc-references-add <repository>`, from the sdlc
-plugin. The template's decision records and terms stay; the project's own are numbered on from them.
+## Development
 
-## The template's changes
+Node 22 or later; no dependencies to install. Agents start at `AGENTS.md`.
 
-A copy records the template commit it was made from in `.copier-answers.yml`, which only copier
-writes. To pull what the template changed since, run on a branch with a clean tree:
+| command            | what it does                                           |
+| ------------------ | ------------------------------------------------------ |
+| `pnpm test`        | tests `awake.js` with `node:test`                      |
+| `pnpm mod:install` | copies `mods/keep-awake/` into Herdr, which reloads it |
 
-```bash
-uvx copier@9.19.1 update --trust
-```
+## License
 
-Copier replays the template's changes onto the copy and leaves conflict markers where the copy changed
-the same lines. Resolve them, run `pnpm check`, and open a pull request.
+MIT
