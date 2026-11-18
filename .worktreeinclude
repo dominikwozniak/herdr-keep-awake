@@ -1,0 +1,8 @@
+# Gitignored files a fresh worktree needs. Syntax is .gitignore's; a file is copied only when it
+# matches a pattern here and is gitignored, so tracked files are never duplicated. Claude Code applies
+# this to every worktree it creates. Neither .ai/agentic.config.local.json nor
+# .claude/settings.local.json: a worktree reads both from its main checkout, and a copy of the
+# config layer would go stale and win over it.
+# The hook dispatcher runs from the worktree's own node_modules, so a commit before `pnpm install`
+# fails instead of skipping the hook.
+.vite-hooks/_/

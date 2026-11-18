@@ -1,0 +1,65 @@
+name: Quality Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+
+# Least privilege, but `contents: read` is mandatory: in a private repo an empty block leaves
+# GITHUB_TOKEN unable to read it and checkout fails with "Repository not found".
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "24.19.0"
+
+jobs:
+  check:
+    name: Check
+    # A draft runs nothing: the Ship script marks it ready after its Review, and `ready_for_review`
+    # runs the gate on that head. A squash merge lands on `main` with `(#NN)` in its subject; its pull
+    # request already ran this gate. Any other push to `main` runs.
+    if: ${{ !github.event.pull_request.draft && (github.event_name != 'push' || !contains(github.event.head_commit.message, '(#')) }}
+    # byArcadia's shared gate, one job: the secrets scan of a pull request's commits ahead of
+    # `pnpm install`, then `pnpm check`, the whole chain, so a link added to it runs here too.
+    uses: byarcadia-app/gh-actions-public/.github/workflows/quality-gate.yaml@1f5320e29ee1cf0ff1e3712e6b1298564edddca9 # v1.1.0
+    with:
+      node-version: "24.19.0"
+      # The secrets scan reads the commits between the pull request's base and head.
+      fetch-depth: 0
+      secrets-scan: true
+
+  copy:
+    name: Copy
+    if: ${{ !github.event.pull_request.draft && (github.event_name != 'push' || !contains(github.event.head_commit.message, '(#')) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      # A copy as `copier copy` makes it, minus the tasks that need claude, jq and a signed-in gh; the
+      # rename, the one task every copy and update runs, runs by hand. pipx ships on the runner image.
+      - run: >-
+          pipx run --spec copier==9.19.1 copier copy --trust --defaults --skip-tasks --vcs-ref HEAD
+          --data name=smoke --data "purpose=Smoke test." . "$RUNNER_TEMP/smoke"
+
+      - working-directory: ${{ runner.temp }}/smoke
+        run: |
+          git init --quiet
+          node "$GITHUB_WORKSPACE/scripts/rename-copy.ts" --name smoke --purpose "Smoke test."
+          pnpm install --frozen-lockfile
+          pnpm check

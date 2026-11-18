@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "groups": [
+    { "id": "scripts", "name": "Scripts" },
+    { "id": "lint", "name": "Lint rules" },
+    { "id": "toolchain", "name": "Toolchain" }
+  ],
+  "primitives": [
+    {
+      "id": "scripts.all",
+      "name": "Scripts",
+      "group": "scripts",
+      "summary": "One TypeScript file per script, run by Node through a package.json script, its test beside it.",
+      "code": ["scripts"],
+      "docs": ["AGENTS.md#project-map", "docs/agents/tooling.md#the-template"]
+    },
+    {
+      "id": "scripts.shared",
+      "name": "Script runner",
+      "group": "scripts",
+      "summary": "What every script shares: the repository root, `Refusal`, and the entry point that turns it into exit 1.",
+      "code": ["scripts/script.ts"],
+      "docs": ["docs/agents/tooling.md#typescript-and-tests"]
+    },
+    {
+      "id": "scripts.bootstrap",
+      "name": "Bootstrap",
+      "group": "scripts",
+      "summary": "Sets a machine or a fresh clone up: tools, dependencies, git hooks, the dw-sdlc plugin and the References.",
+      "code": ["scripts/bootstrap.ts"],
+      "docs": ["README.md#setup"]
+    },
+    {
+      "id": "scripts.agents-check",
+      "name": "Agent map check",
+      "group": "scripts",
+      "summary": "Holds AGENTS.md to its CLAUDE.md links, the paths it routes to and the skills it names.",
+      "code": ["scripts/agents-check.ts"],
+      "docs": ["AGENTS.md", "docs/agents/tooling.md#the-gate"]
+    },
+    {
+      "id": "lint.anti-slop",
+      "name": "Anti-slop lint rules",
+      "group": "lint",
+      "summary": "Vendored oxlint rules that vite.config.ts loads, with the rule tester their tests run through.",
+      "code": ["tools/oxlint"],
+      "docs": ["tools/oxlint/anti-slop/UPSTREAM.md", "docs/agents/tooling.md#vendored-lint-rules"]
+    },
+    {
+      "id": "toolchain.vite-plus",
+      "name": "Vite+",
+      "group": "toolchain",
+      "summary": "The one tool config, for fmt, lint, test and staged, and the git hooks Vite+ installs.",
+      "code": ["vite.config.ts", ".vite-hooks"],
+      "docs": ["docs/agents/tooling.md#vite", "docs/decisions/0001-vite-plus-is-the-one-toolchain.md"]
+    },
+    {
+      "id": "toolchain.supply-chain",
+      "name": "Supply-chain settings",
+      "group": "toolchain",
+      "summary": "pnpm's settings: the release gate, the trust policy, the builds allowed and the audit level.",
+      "code": ["pnpm-workspace.yaml"],
+      "docs": [
+        "docs/agents/tooling.md#dependencies",
+        "docs/decisions/0002-dependencies-wait-seven-days-and-are-pinned-exactly.md"
+      ]
+    },
+    {
+      "id": "toolchain.agentic-config",
+      "name": "Agentic config",
+      "group": "toolchain",
+      "summary": "What the sdlc plugin's guards and the Gate read: branches, commits, Steps, Checks and References.",
+      "code": [".ai/agentic.config.json", ".ai/references.json", ".ai/primitives.json"],
+      "docs": ["docs/agents/tooling.md#the-gate", "references/AGENTS.md"]
+    }
+  ]
+}

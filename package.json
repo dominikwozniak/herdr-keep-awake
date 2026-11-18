@@ -1,0 +1,24 @@
+{
+  "name": "herdr-keep-awake",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "dw-sdlc gate",
+    "check:fix": "vp check --fix",
+    "prepare": "vp config --no-agent",
+    "references:setup": "dw-sdlc references setup",
+    "references:sync": "dw-sdlc references sync",
+    "test": "vp test",
+    "bootstrap": "node scripts/bootstrap.ts",
+    "agents:check": "node scripts/agents-check.ts"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "dw-sdlc": "0.23.0",
+    "vite-plus": "1.1.0"
+  },
+  "engines": {
+    "node": ">=24.11.0"
+  },
+  "packageManager": "pnpm@11.28.5"
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "../node_modules/dw-sdlc/config/references.schema.json",
+  "version": 1,
+  "references": [
+    {
+      "dir": "vite-plus",
+      "repository": "https://github.com/voidzero-dev/vite-plus",
+      "ref": "v{vite-plus}",
+      "skip": ["crates", ".claude"],
+      "what": "the source of Vite+, the toolchain behind `vp`, at the installed version: `docs/` the guide and config reference, `packages/cli/` the CLI, `rfcs/` the why",
+      "when": "a `vp` command, a `vite.config.ts` block, hooks or `vp staged` behaves unexpectedly"
+    }
+  ]
+}
