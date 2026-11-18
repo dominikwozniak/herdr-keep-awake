@@ -64,7 +64,9 @@ padding:
   race shows a false failure.
 - Without `on_mouse_down("left", …stop_propagation())` a press on the switch drags the window.
 - Another layout starts its mods fresh: switching to a layout without this block ends the hold.
-- macOS only. The lid closed still sleeps the Mac, outside clamshell mode.
+- macOS only. `caffeinate` ships with macOS (`/usr/bin/caffeinate`), so there is nothing to install;
+  elsewhere `hc run` fails with `spawn_failed` and the switch shows the error. The lid closed still
+  sleeps the Mac, outside clamshell mode.
 
 ## Done when
 
