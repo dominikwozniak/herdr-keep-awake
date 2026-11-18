@@ -7,7 +7,12 @@ A Herdr mod: a switch in the tab bar that keeps your Mac and its display awake w
 
 ## Project map
 
-- `scripts/` — the code: one TypeScript file per script, run by Node through a `package.json` script,
+- `mods/keep-awake/` — the mod, plain JavaScript Herdr loads: `mods/keep-awake/main.js` the switch,
+  `mods/keep-awake/awake.js` what it runs and how it reads hc, free of Herdr's modules; all of it
+  ships, so its tests live in `tests/`
+- `RECIPE.md` — the brief another agent builds the mod from; `keys.json` — the key it expects;
+  `preview.png` — the gallery's picture
+- `scripts/` — the repo's tooling: one TypeScript file per script, run by Node through a `package.json` script,
   its test beside it. `scripts/script.ts` holds what every script shares; a script that calls what a
   test cannot touch takes `Tools`, the one seam a test fakes (`scripts/bootstrap.ts`)
 - `vite.config.ts` — the only tool config: `fmt`, `lint`, `test`, `staged`
@@ -115,6 +120,7 @@ Match this table **before** researching or coding — read every row that matche
 
 | task                                                                                 | read                                          |
 | ------------------------------------------------------------------------------------ | --------------------------------------------- |
+| changing, running or checking the mod; Herdr's API                                   | `docs/agents/mod.md`, `RECIPE.md`             |
 | lint, format, type-check, tests, hooks, worktrees, CI, adding a dependency, the gate | `docs/agents/tooling.md`                      |
 | which code a path belongs to, and the docs to read before changing it                | `.ai/primitives.json`                         |
 | a decision record: writing, numbering or citing one; a domain term                   | `docs/agents/domain.md`, `GLOSSARY.md`        |

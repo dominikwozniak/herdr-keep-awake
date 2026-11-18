@@ -1,6 +1,8 @@
 {
-  "include": ["scripts", "tools/oxlint/rule-tester.setup.ts", "vite.config.ts"],
+  "include": ["scripts", "tests", "mods/keep-awake/awake.js", "tools/oxlint/rule-tester.setup.ts", "vite.config.ts"],
   "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
     "target": "ES2024",
     "module": "NodeNext",
     "moduleDetection": "force",

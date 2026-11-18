@@ -9,6 +9,8 @@ const ignored = [
   "tools/oxlint/anti-slop/",
   ".claude/worktrees/",
   "*.local.json",
+  "mods/*/gpui-kit.d.ts",
+  "mods/*/jsconfig.json",
   ".copier-answers.yml"
 ]
 
@@ -53,7 +55,7 @@ export default defineConfig({
     options: { typeAware: true, typeCheck: true, denyWarnings: true }
   },
   test: {
-    include: ["scripts/**/*.test.ts", "tools/**/*.test.ts"],
+    include: ["scripts/**/*.test.ts", "tests/**/*.test.ts", "tools/**/*.test.ts"],
     setupFiles: ["tools/oxlint/rule-tester.setup.ts"]
   },
   staged: { "*": "vp check --fix --no-error-on-unmatched-pattern" }

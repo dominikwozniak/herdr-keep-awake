@@ -9,6 +9,7 @@
     "references:setup": "dw-sdlc references setup",
     "references:sync": "dw-sdlc references sync",
     "test": "vp test",
+    "mod:install": "rsync -a --delete --exclude gpui-kit.d.ts --exclude jsconfig.json mods/keep-awake/ \"${HERDR_APP_HOME:-$HOME/.config/herdr-app}/mods/keep-awake/\"",
     "bootstrap": "node scripts/bootstrap.ts",
     "agents:check": "node scripts/agents-check.ts"
   },

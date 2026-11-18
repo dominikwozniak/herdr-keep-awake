@@ -17,7 +17,7 @@
     "steps": ["pnpm exec vp check", "pnpm references:setup --check", "pnpm exec vp test"],
     "checks": {
       "run": [{ "name": "agents-check", "command": "node scripts/agents-check.ts" }],
-      "primitives": { "roots": ["scripts", "tools"] },
+      "primitives": { "roots": ["mods", "scripts", "tools"] },
       "agents-map": true,
       "markdown-budget": true,
       "markdown-refs": true,

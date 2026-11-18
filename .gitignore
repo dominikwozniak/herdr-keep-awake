@@ -4,6 +4,10 @@ node_modules/
 # `vp config` writes the wrappers git runs; the hooks themselves are tracked in .vite-hooks/.
 .vite-hooks/_/
 
+# Herdr writes its editor types into each mod folder it loads (docs/agents/mod.md).
+mods/*/gpui-kit.d.ts
+mods/*/jsconfig.json
+
 # Worktrees Claude Code creates, and local notes that never reach a commit.
 .claude/worktrees/
 ideas/

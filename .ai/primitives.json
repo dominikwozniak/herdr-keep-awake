@@ -1,11 +1,20 @@
 {
   "version": 1,
   "groups": [
+    { "id": "mod", "name": "Mod" },
     { "id": "scripts", "name": "Scripts" },
     { "id": "lint", "name": "Lint rules" },
     { "id": "toolchain", "name": "Toolchain" }
   ],
   "primitives": [
+    {
+      "id": "mod.keep-awake",
+      "name": "Keep-awake mod",
+      "group": "mod",
+      "summary": "The Herdr mod: the tab-bar switch, and the caffeinate hold it starts and ends through hc.",
+      "code": ["mods/keep-awake"],
+      "docs": ["RECIPE.md", "docs/agents/mod.md"]
+    },
     {
       "id": "scripts.all",
       "name": "Scripts",
@@ -28,7 +37,7 @@
       "group": "scripts",
       "summary": "Sets a machine or a fresh clone up: tools, dependencies, git hooks, the dw-sdlc plugin and the References.",
       "code": ["scripts/bootstrap.ts"],
-      "docs": ["README.md#setup"]
+      "docs": ["README.md#development"]
     },
     {
       "id": "scripts.agents-check",
